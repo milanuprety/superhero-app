@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>  
+    <button id="searchButton">Search</button>
+    <input id ="textSearch" type="text">
+    <button id ='getNewHeroButton'>Random Hero</button>
+    
+    <br>
+    <div id='getNewHero'> </div>
+    <script>
+//https://superheroapi.com/api/10228481492165282/245
+const superHeroToken ='10228481492165282';
+const getNewHeroDiv = document.getElementById('getNewHero');
+const baseURL = `https://superheroapi.com/api.php/${superHeroToken}`;
+let getSuperHero = (id,name) =>{
+    fetch(`${baseURL}/${id}`)
+    .then(response => response.json())
+    .then(json=> {
+        console.log(json);
+        getNewHeroDiv.innerHTML = `<img src = "${json.image.url}" height=300px width=300px />`;}
+    );
+}
+
+let getSuperHeroByName = (name) =>{
+    fetch(`${baseURL}/search/${name}`)
+    .then(response => response.json())
+    .then(json=> {
+        console.log(json);
+        getNewHeroDiv.innerHTML = `<img src = "${json.results[0].image.url}" height=300px width=300px />`;}
+    );
+}
+
+const randomHero = () =>{
+    const randomNumber = 731;
+    return Math.floor(Math.random()*randomNumber)+1;
+}
+
+let getNewHeroButton = document.getElementById('getNewHeroButton');
+getNewHeroButton.onclick =()=> {
+    
+    getSuperHero(randomHero());
+}
+let searchButton = document.getElementById('searchButton');
+searchButton.onclick =() =>{
+    const heroName = document.getElementById('textSearch');
+    newHeroName = heroName.value;
+    getSuperHeroByName(newHeroName)
+}
+
+    </script>
+</body>
+</html>
